@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     #### Cloud Generation Stuff
     params['alpha'] = 2                 # Default: 2
-    params['zeta'] = -1                 # Default: -1
+    params['zeta'] = 1                  # Default: 1
 
     # cloud mass min/max (Msun)
     params['mclmin'] = 1e1              # Default: 10 Msun

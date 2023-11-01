@@ -360,7 +360,7 @@ def sample_from_mass_CDF(X, alpha, mclmin, mclmax):
     return (mclmin**(-alpha+1) - (mclmin**(-alpha+1) - mclmax**(-alpha+1))*X )**(1/(-alpha+1))
 
 def sample_from_distance_CDF(X, zeta, dclmin, dclmax):
-    return (dclmin**(-zeta+1) - (dclmin**(-zeta+1) - dclmax**(-zeta+1))*X )**(1/(-zeta+1))
+    return (dclmin**(zeta+1) - (dclmin**(zeta+1) - dclmax**(zeta+1))*X )**(1/(zeta+1))
 
 def sph2cart(theta_el, phi_az, r):
     """

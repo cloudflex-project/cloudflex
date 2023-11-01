@@ -41,7 +41,7 @@ def makeall_clouds(flg=1):
 
     #### Cloud Generation Stuff
     params['alpha'] = 2                 # Default: 2
-    params['zeta'] = -1                 # Default: -1
+    params['zeta'] = 1                 # Default: 1
 
     # cloud mass min/max (Msun)
     params['mclmin'] = 1e1              # Default: 10 Msun
@@ -352,7 +352,7 @@ def makeall_clouds(flg=1):
     elif (flg==9):
 
         ## zeta loop
-        zetas = np.array([-5.0, -2.0, -1.0, 0.0, 2.0])
+        zetas = np.array([-2.0, 0.0, 1.0, 2.0, 5.0])
 
         print("Looping over zetas = %s" % zetas)
 
@@ -604,6 +604,6 @@ def run_quad_plot(updir='MCLMIN'):
 
 if __name__ == '__main__':
 
-    makeall_clouds(flg=2)
-    makeall_rays(updir='NCL')
-    run_quad_plot(updir='NCL')
+    makeall_clouds(flg=9)
+    makeall_rays(updir='ZETA')
+    run_quad_plot(updir='ZETA')
