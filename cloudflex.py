@@ -370,27 +370,11 @@ def sph2cart(theta_el, phi_az, r):
     phi = azimuthal angle
 
     """
-    #rcos_theta = r * np.cos(el)
-    #x = rcos_theta * np.cos(az)
-    #y = rcos_theta * np.sin(az)
-    #z = r * np.sin(el)
-
     z = r * np.cos(theta_el)
     x = r * np.sin(theta_el) * np.cos(phi_az)
     y = r * np.sin(theta_el) * np.sin(phi_az)
     
     return np.array([x, y, z])
-
-#def cart2sph(x, y, z):
-#    """
-#    Convert from cartesian coords to spherical coords
-#    """
-#    hxy = np.hypot(x, y)
-#    r = np.hypot(hxy, z)
-#    el = np.arctan2(z, hxy)
-#    az = np.arctan2(y, x)
-#    return az, el, r
-
 
 def distance(point1, point2):
     """
@@ -607,9 +591,6 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
         #plot_spectrum1D(pertx, perty, pertz, p['n'], p['kmin'], p['kmax'])
         self.calculate_stuff()
 
-        ## KHRR adding estimate of turbulent broadening
-        ## When calculating spectrum, the actual path length through the cloud is used as the distance
-        ## Here, using the cloud diameters as a maximum
         #self.turb_broad = self.calculate_subcloud_turbulent_velocity(2.0*radii)
         
         return
@@ -624,7 +605,7 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
             f.create_dataset("radii", data=self.radii)
             f.create_dataset("centers", data=self.centers)
             f.create_dataset("velocities", data=self.velocities)
-            #f.create_dataset("turb_broad", data=self.turb_broad)  ## KHRR added this
+            #f.create_dataset("turb_broad", data=self.turb_broad)
             for i in self.params.keys():
                 f.attrs[i] = self.params[i]
         return
@@ -665,7 +646,7 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
 
     def cloud_loop_kdtree(self, radii, clobber):
         """
-        Use a kdtree to speed things up?
+        Alternate method for doing cloud overlap loop to see if a KDTree speeds things.
         """
         from scipy.spatial import KDTree
         tree = KDTree(np.array(centers).reshape(1,3))
@@ -1120,7 +1101,7 @@ class SpectrumGenerator():
         p = clouds.params
         temperature_cloud = p['T_cl']
         self.subcloud_turb = subcloud_turb
-        self.metallicity_cloud = p['Z_cl']    # KHRR added this, units of Zsolar
+        self.metallicity_cloud = p['Z_cl']
 
         # Mg II Line Info
         self.lambda_0 = 2796.35 #* angstrom #AA
@@ -1176,10 +1157,7 @@ class SpectrumGenerator():
 
         Optionally attach each spectrum to the Rays class that called it
         """
-        # Right now metallicity is hardcoded here
-        #Z_cl = 0.33 # units of Z_solar
-        Z_cl = self.metallicity_cloud  ## KHRR added this line
-
+        Z_cl = self.metallicity_cloud # units of Zsolar
         self.rays = rays
         self.i = i
         dls = calculate_intersections(rays.coords[i], self.clouds) * kpc
@@ -1193,7 +1171,6 @@ class SpectrumGenerator():
         rays.column_densities[i] = np.sum(mgII_column_densities)
         self.tau_field = np.zeros_like(self.lambda_field)
         self.tau_fields = np.zeros([len(mask), self.lambda_field.shape[0]])
-
 
         if self.subcloud_turb:
             # Adding intrinsic turbulence in each cloud to thermal_b so voigt profile
@@ -1515,11 +1492,6 @@ def plot_histogram(field, label, clouds, x_max=None, log=False, xrange=None, n_b
     plt.text(0.01, 0.95, text1, size='medium', weight='bold', color='black',transform=ax.transAxes)
     text2 = 'Cloud Mass Range = [%4.2g, %4.2g] Msun' % (p['mclmin'], p['mclmax'])
     plt.text(0.01, 0.91, text2, size='medium', weight='bold', color='black',transform=ax.transAxes)
-    #if p['clobber']:
-    #    text3 = 'Clobber'
-    #else:
-    #    text3 = 'No Clobber'
-    #plt.text(0.01, 0.87, text3, size='medium', weight='bold', color='black',transform=ax.transAxes)
     if annotate is not None:
         plt.text(0.99, 0.95, annotate, size='medium', weight='bold', color='black', horizontalalignment='right', transform=ax.transAxes)
     if standalone:
