@@ -1842,6 +1842,9 @@ def calc_mgII_frac(n_cl):
 
 def make_quad_plot(rays_list, clouds_list, filename='quad.png', flgs_dict=None):
     """
+    Make Figure 3 from method paper, creates 4 plots side-by-side of various 
+    observational counterparts based on rays.h5 file. PDFs of number of intersected
+    clouds, column density of each sightline, EW of each sightline, and covering frac.
     """
 
     if(flgs_dict==None):
