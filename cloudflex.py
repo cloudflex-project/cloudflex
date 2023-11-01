@@ -818,7 +818,8 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
         by sqrt(rho_hot / rho_cool) = 0.1 and cap at sound speed = 10 km/s to
         ensure realistic behavior in cool gas
         """
-        factor = np.sqrt(self.params['n_bg'] / self.params['n_cl'])
+        #factor = np.sqrt(self.params['n_bg'] / self.params['n_cl'])
+        factor = 0.1
         velocities = self.extrapolate_turbulent_velocity(distance) * factor
         return np.clip(velocities, 0, 10)
 

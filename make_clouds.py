@@ -63,17 +63,13 @@ if __name__ == '__main__':
     params['dclmax'] = 5                # Default: 5 kpc
     params['center'] = [0.0, 0.0]       # Default: (0, 0)
 
-    # background density and temperature of hot medium
     # density and temperature of cool clouds
-    params['n_bg'] = 1e-4 / cm**3       # Default: 1e-4 cm^-3
-    params['T_bg'] = 1e6 * K            # Default: 1e6 K
-    params['P'] = params['n_bg'] * params['T_bg']
     params['T_cl'] = 1e4 * K            # Default: 1e4 K
-    params['n_cl'] = params['P'] / params['T_cl']  # Default: 1e-2 cm^-3
+    params['n_cl'] = 1e-2 / cm**3       # Default: 1e-2 cm^-3
     params['Z_cl'] = 0.33               # Default: 0.33
     params['rho_cl'] = params['n_cl'] * proton_mass
     params['total_mass'] = 1e6          # Default: 1e6 Msun
-    params['clobber'] = True            # Default: True
+    params['clobber'] = False           # Default: False
 
     if not loop:
         create_and_plot_clouds(params)
