@@ -599,6 +599,6 @@ def run_quad_plot(updir='MCLMIN'):
 
 if __name__ == '__main__':
 
-    makeall_clouds(flg=9)
-    makeall_rays(updir='ZETA')
-    run_quad_plot(updir='ZETA')
+    makeall_clouds(flg=2)
+    makeall_rays(updir='NCL')
+    run_quad_plot(updir='NCL')
