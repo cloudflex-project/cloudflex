@@ -62,7 +62,7 @@ def makeall_clouds(flg=1):
     params['Z_cl'] = 0.33               # Default: 0.33
     params['rho_cl'] = params['n_cl'] * proton_mass
     params['total_mass'] = 1e6          # Default: 1e6 Msun
-    params['clobber'] = True            # Default: True
+    params['clobber'] = False           # Default: False
 
     # Ensuring seed state is same for each iteration
     state = np.random.get_state()
@@ -604,6 +604,6 @@ def run_quad_plot(updir='MCLMIN'):
 
 if __name__ == '__main__':
 
-    #makeall_clouds(flg=1)
-    makeall_rays()
-    #run_quad_plot(updir='ZETA')
+    makeall_clouds(flg=2)
+    makeall_rays(updir='NCL')
+    run_quad_plot(updir='NCL')
