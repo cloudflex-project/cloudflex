@@ -742,7 +742,7 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
             centers[i,:] = center
         return centers
 
-    def calculate_turbulence(self, N_points=1e5, N_pairs=1e7, plot=True):
+    def calculate_turbulence(self, N_points=1e5, N_pairs=1e7, plot=False):
         """
         Calculate the turbulent velocity RMS as a function of separation distance
         The slope will be beta, and the anchor point is set to self.anchor_point
