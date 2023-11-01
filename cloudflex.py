@@ -1159,6 +1159,7 @@ class SpectrumGenerator():
         Optionally attach each spectrum to the Rays class that called it
         """
         Z_cl = self.metallicity_cloud # units of Zsolar
+        X_hydrogen = 0.74 # Hydrogen mass fraction
         self.rays = rays
         self.i = i
         dls = calculate_intersections(rays.coords[i], self.clouds) * kpc
@@ -1167,7 +1168,7 @@ class SpectrumGenerator():
         rays.clouds[i] = mask
         rays.n_clouds[i] = len(mask)
         column_densities = dls*self.clouds.params['n_cl'] / cm**3
-        mg_column_densities = solar_abundance['Mg']*column_densities*Z_cl
+        mg_column_densities = solar_abundance['Mg']*column_densities * Z_cl * X_hydrogen
         mgII_column_densities = mg_column_densities * mgII_frac
         rays.column_densities[i] = np.sum(mgII_column_densities)
         self.tau_field = np.zeros_like(self.lambda_field)
