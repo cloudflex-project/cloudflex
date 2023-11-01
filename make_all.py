@@ -408,7 +408,7 @@ def create_rays(clouds_fil, rays_fil):
     N = 10000
     sg = SpectrumGenerator(clouds, subcloud_turb=True)
     rays = sg.generate_ray_sample(N, params['center'],  params['dclmax'],
-                                  first_n_to_plot=50, attach_spectra=True)
+                                  first_n_to_plot=10, attach_spectra=True)
     rays.save(rays_fil)
 
     # Create histograms of EW, clouds intersected, and column density of all rays

@@ -36,7 +36,7 @@ if __name__ == '__main__':
     N = 10000
     sg = SpectrumGenerator(clouds, subcloud_turb=True)
     rays = sg.generate_ray_sample(N, params['center'],  params['dclmax'],
-                                  first_n_to_plot=50, attach_spectra=True)
+                                  first_n_to_plot=10, attach_spectra=True)
     #plot_clouds_buffer(clouds, filename='clouds_4.png', rays=rays)
     rays.save('rays.h5')
     #plot_clouds(rays=rays, clouds=clouds, filename='clouds_rays.png')
