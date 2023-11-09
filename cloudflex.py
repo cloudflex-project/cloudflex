@@ -1141,7 +1141,9 @@ class SpectrumGenerator():
         # Spectrum consists of lambda, tau, velocity, and flux fields
         # Flux is derived from tau (optical depth) and
         # velocity is derived from lambda (wavelength)
-        self.lambda_range = 3 # in angstroms
+
+        ## KHRR -- changed below line from 3 Ang
+        self.lambda_range = 6 # in angstroms
         self.lambda_min = self.lambda_0 - self.lambda_range / 2. # in angstroms
         self.lambda_max = self.lambda_0 + self.lambda_range / 2. # in angstroms
         self.lambda_field = np.linspace(self.lambda_min, self.lambda_max, \
