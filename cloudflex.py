@@ -24,7 +24,6 @@ from unyt import \
     g, \
     proton_mass, \
     boltzmann_constant_cgs
-import pandas as pd
 from trident_voigt import \
     solar_abundance, \
     tau_profile
@@ -796,9 +795,6 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
             ax.set_ylabel('log(Velocity Difference (km/s))')
             text = 'Beta: %.2f' % self.params['beta']
             plt.text(0.01, 0.95, text, weight='bold', color='white',transform=ax.transAxes)
-            ## overplot the median
-            #df = bin_by(np.log10(dist[mask]), np.log10(vel_diff[mask]), nbins=50, bins = None)
-            #plt.plot(df.x, df['median'], color = '1', alpha = 0.7, linewidth = 1)
             plt.savefig('turbulence_log.png')
             plt.close()
         return
@@ -1591,44 +1587,6 @@ def plot_multi_histogram(fields, names, label, text=None, x_max=None, log=False,
         plt.text(0.01, 0.95, text, size='medium', weight='bold', color='black',transform=ax.transAxes)
     plt.savefig(filename)
     plt.close("all")
-
-def bin_by(x, y, nbins=30, bins = None):
-    """
-    Divide the x axis into sections and return groups of y based on its x value
-    Code from: https://github.com/tommlogan/watercolor/blob/master/watercolor.py
-    """
-    if bins is None:
-        bins = np.linspace(x.min(), x.max(), nbins)
-
-    bin_space = (bins[-1] - bins[0])/(len(bins)-1)/2
-
-    indicies = np.digitize(x, bins + bin_space)
-
-    output = []
-    for i in range(0, len(bins)):
-        output.append(y[indicies==i])
-    #
-    # prepare a dataframe with cols: median; mean; 1up, 1dn, 2up, 2dn, 3up, 3dn
-    df_names = ['mean', 'median', '5th', '95th', '10th', '90th', '25th', '75th']
-    df = pd.DataFrame(columns = df_names)
-    to_delete = []
-    # for each bin, determine the std ranges
-    for y_set in output:
-        if y_set.size > 0:
-            av = y_set.mean()
-            intervals = np.percentile(y_set, q = [50, 5, 95, 10, 90, 25, 75])
-            res = [av] + list(intervals)
-            df = df.append(pd.DataFrame([res], columns = df_names))
-        else:
-            # just in case there are no elements in the bin
-            to_delete.append(len(df) + 1 + len(to_delete))
-
-
-    # add x values
-    bins = np.delete(bins, to_delete)
-    df['x'] = bins
-
-    return df
 
 def create_and_plot_clouds(params, cloud_fil='clouds.h5'):
     """
