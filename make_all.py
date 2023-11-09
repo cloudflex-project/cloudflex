@@ -2,7 +2,6 @@ import numpy as np
 from unyt import cm, K, proton_mass
 import os
 import glob
-from IPython import embed
 
 from cloudflex import \
     SpectrumGenerator, \
