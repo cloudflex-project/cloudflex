@@ -16,8 +16,8 @@ from tqdm import tqdm
 from unyt import kpc, cm, K, amu, km, s, Msun, angstrom, c, g, proton_mass
 import matplotlib as mpl
 import pandas as pd
-from trident.ion_balance import solar_abundance
-from trident.absorption_spectrum.absorption_line import tau_profile
+from trident_voigt import solar_abundance
+from trident_voigt import tau_profile
 from yt.utilities.physical_constants import boltzmann_constant_cgs
 from astropy.convolution import Gaussian1DKernel, convolve
 import matplotlib.ticker as ticker
