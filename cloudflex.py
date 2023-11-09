@@ -7,27 +7,40 @@ import h5py
 import numpy as np
 import numpy.fft
 from math import *
-from optparse import OptionParser
 import sys
 import matplotlib.pyplot as plt
-import cmasher as cmr
 import warnings
 from tqdm import tqdm
-from unyt import kpc, cm, K, amu, km, s, Msun, angstrom, c, g, proton_mass
-import matplotlib as mpl
+from unyt import \
+    kpc, \
+    cm, \
+    K, \
+    amu, \
+    km, \
+    s, \
+    Msun, \
+    angstrom, \
+    c, \
+    g, \
+    proton_mass, \
+    boltzmann_constant_cgs
 import pandas as pd
-from trident_voigt import solar_abundance
-from trident_voigt import tau_profile
-from yt.utilities.physical_constants import boltzmann_constant_cgs
-from astropy.convolution import Gaussian1DKernel, convolve
+from trident_voigt import \
+    solar_abundance, \
+    tau_profile
+from astropy.convolution import \
+    Gaussian1DKernel, \
+    convolve
 import matplotlib.ticker as ticker
-from matplotlib.ticker import MultipleLocator
-from matplotlib.ticker import AutoMinorLocator
-from matplotlib.collections import PatchCollection
-from matplotlib_scalebar.scalebar import ScaleBar
+from matplotlib.ticker import \
+    MultipleLocator, \
+    AutoMinorLocator
+from matplotlib.collections import \
+    PatchCollection
+from matplotlib_scalebar.scalebar import \
+    ScaleBar
 import matplotlib.patheffects as pe
 import matplotlib.gridspec as gridspec
-import palettable
 import cmyt
 import cmocean
 import matplotlib.colors as colors
