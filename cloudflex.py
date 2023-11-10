@@ -44,6 +44,7 @@ import cmyt
 import cmocean
 import matplotlib.colors as colors
 import os.path
+import errno
 
 ## change the default font to Avenir
 plt.rcParams['font.family'] = 'Avenir'
@@ -377,7 +378,7 @@ def sample_from_distance_CDF(X, zeta, dclmin, dclmax):
 def sph2cart(theta_el, phi_az, r):
     """
     Convert from spherical coords to cartesian coords
-    
+
     theta = polar angle
     phi = azimuthal angle
 
@@ -385,7 +386,7 @@ def sph2cart(theta_el, phi_az, r):
     z = r * np.cos(theta_el)
     x = r * np.sin(theta_el) * np.cos(phi_az)
     y = r * np.sin(theta_el) * np.sin(phi_az)
-    
+
     return np.array([x, y, z])
 
 def distance(point1, point2):
@@ -474,16 +475,12 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
         p = self.params
         distance = sample_from_distance_CDF(np.random.rand(N), p['zeta'], p['dclmin'],
                                             p['dclmax'])
-        
-        ##THIS IS INCORRECT -- KHRR
-        #phi = np.random.rand(N)*2*np.pi
-        #theta = np.random.rand(N)*np.pi
-        
-        # Using Drummond's reference frome, with theta = polar angle, phi = azimuthal angle
+
+        # Using reference frome with theta = polar angle, phi = azimuthal angle
         phi = 2.0*np.pi*np.random.rand(N)        # azimuthal angle
         costheta = 2.0*np.random.rand(N) - 1.0
         theta = np.arccos(costheta)              # polar angle
-        
+
         return sph2cart(theta, phi, distance).T
 
     def calculate_cloud_radii(self, masses):
@@ -604,7 +601,7 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
         self.calculate_stuff()
 
         #self.turb_broad = self.calculate_subcloud_turbulent_velocity(2.0*radii)
-        
+
         return
 
     def save(self, filename):
@@ -747,11 +744,9 @@ centers: %s\n velocities: %s\n params: %s""" % (len(self.masses), self.masses[0:
         rad = np.random.rand(N_points)*5
         phi = np.random.rand(N_points)*2*np.pi  # azimuthal angle
 
-        ## KHRR changing how thetas are selected
-        #theta = np.random.rand(N_points)*np.pi  -- original line
         costheta = 2.0*np.random.rand(N_points) - 1.0
-        theta = np.arccos(costheta) 
-        
+        theta = np.arccos(costheta)
+
         points = sph2cart(theta, phi, rad).T
         vels = self.generate_velocities(points)
         pairs = np.random.randint(N_points, size=([2,N_pairs]))
@@ -1142,7 +1137,6 @@ class SpectrumGenerator():
         # Flux is derived from tau (optical depth) and
         # velocity is derived from lambda (wavelength)
 
-        ## KHRR -- changed below line from 3 Ang
         self.lambda_range = 6 # in angstroms
         self.lambda_min = self.lambda_0 - self.lambda_range / 2. # in angstroms
         self.lambda_max = self.lambda_0 + self.lambda_range / 2. # in angstroms
@@ -1795,19 +1789,35 @@ def plot_multi_clouds_buffer(clouds_list):
 
 def calc_mgII_frac(n_cl):
     """
-    Estimates the Mg II ion fraction based on the cool cloud number density.
-    This just does linear interpolation from the Trident ion balance lookup table
-    which is based on many CLOUDY models assuming a Haardt-Madau 2012 UV background.
-    For this function, we currently assume z=0.25 and T=10^4K.  This function requires
-    the ion balance table to be present in the cloudflex directory: hm2012_hr.h5
-    or in the directory where Trident automatically installs it: ~/.trident
+    This function estimates the Mg II ion fraction based on the cool cloud number
+    density.  This just does linear interpolation from the Trident ion balance lookup
+    table which is based on many CLOUDY models assuming a Haardt-Madau 2012 UV
+    background.  For this function, we currently assume z=0.25 and T=10^4K.
+
+    This function requires the ion balance table to be present in the cloudflex
+    directory: hm2012_hr.h5 or in the directory where Trident automatically
+    installs it: ~/.trident
+
+    To download this file, either install and run Trident for the first time,
+    or download it and unzip it manually from:
+
+    http://trident-project.org/data/ion_table/
 
     Notably, linear interpolation takes place in log space for the density as well as
     the ion fraction.
     """
 
-    ion_balance_filename = os.path.expanduser(os.path.join('~','.trident','hm2012_hr.h5'))
-    f = h5py.File(ion_balance_filename, 'r')
+    fn = 'hm2012_hr.h5'
+    cloudflex_dir = os.path.split(__file__)[0]
+    local_fn = os.path.join(cloudflex_dir, fn)
+    global_fn = os.path.join(os.path.expanduser('~'), '.trident', fn)
+    if os.path.exists(local_fn):
+        ion_balance_fn = local_fn
+    elif os.path.exists(global_fn):
+        ion_balance_fn = global_fn
+    else:
+        raise FileNotFoundError('CloudFlex requires trident data file: hm2012_hr.h5. See docs.')
+    f = h5py.File(ion_balance_fn, 'r')
     log_MgII_vals = f['Mg'][1,:,2,120] # log(Mg II / Mg abundance)
     log_dens_bins = f['Mg'].attrs['Parameter1'] # log n(H)
     log_n_cl = np.log10(n_cl)
@@ -1817,7 +1827,7 @@ def calc_mgII_frac(n_cl):
 
 def make_quad_plot(rays_list, clouds_list, filename='quad.png', flgs_dict=None):
     """
-    Make Figure 3 from method paper, creates 4 plots side-by-side of various 
+    Make Figure 3 from method paper, creates 4 plots side-by-side of various
     observational counterparts based on rays.h5 file. PDFs of number of intersected
     clouds, column density of each sightline, EW of each sightline, and covering frac.
     """
