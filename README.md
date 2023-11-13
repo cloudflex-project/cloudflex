@@ -69,6 +69,6 @@ Our method paper for CloudFlex has been submitted to ApJ and can be found on the
 It gives a full description of the methods used in the code.  Comments are welcome.
 If you use CloudFlex in your work, please consider citing this paper:
 
-[https://arxiv.org/abs/2311.05691](https://arxiv.org/abs/2311.05691)
+Hummels & Rubin et al. (2023): [https://arxiv.org/abs/2311.05691](https://arxiv.org/abs/2311.05691)
 
 --Cameron Hummels, Kate Rubin, Evan Schneider, and Drummond Fielding
