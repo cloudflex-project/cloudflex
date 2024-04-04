@@ -11,8 +11,7 @@ of sightlines piercing these cloudlet complexes, borrowing heavily from the
 
 ## Installation
 
-CloudFlex is under active development, and a formal release of the code is forthcoming
-(expected by mid-November 2023), which will allow for users to `pip` install it easily.
+CloudFlex is under active development, with a formal release of the code forthcoming.
 
 Until that time, users who want to run CloudFlex are encouraged to download/clone
 this repository, ensure they have the dependencies using pip or conda, and download
