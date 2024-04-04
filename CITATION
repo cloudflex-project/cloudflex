@@ -1,0 +1,19 @@
+If you use CloudFlex for your scientific research, please include the following
+bibtex to cite our CloudFlex method paper:
+
+@ARTICLE{2023arXiv231105691H,
+       author = {{Hummels}, Cameron B. and {Rubin}, Kate H.~R. and {Schneider}, Evan E. and {Fielding}, Drummond B.},
+        title = "{CloudFlex: A Flexible Parametric Model for the Small-Scale Structure of the Circumgalactic Medium}",
+      journal = {arXiv e-prints},
+     keywords = {Astrophysics - Astrophysics of Galaxies},
+         year = 2023,
+        month = nov,
+          eid = {arXiv:2311.05691},
+        pages = {arXiv:2311.05691},
+          doi = {10.48550/arXiv.2311.05691},
+archivePrefix = {arXiv},
+       eprint = {2311.05691},
+ primaryClass = {astro-ph.GA},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2023arXiv231105691H},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
