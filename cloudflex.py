@@ -1760,9 +1760,11 @@ def plot_clouds_buffer(clouds, filename=None, buffer_limits=(5e14, 1e21),
     plt.tight_layout()
     plt.savefig(filename)
 
-def plot_multi_clouds_buffer(clouds_list):
+def plot_multi_clouds_buffer(clouds_list, plot_args=None):
     """
     Plot three sets of clouds side by side using plot_clouds_buffer functionality
+
+    For keyword values to plot_clouds_buffer, pass them in the plot_args dictionary
     """
     fig, axs = plt.subplots(1, 3, figsize=(15, 5))
     # colorbar limits in column density
@@ -1774,7 +1776,7 @@ def plot_multi_clouds_buffer(clouds_list):
         clouds = clouds_list[j]
         p = clouds.params
         print("Plotting %.1g mclmin clouds" % p['mclmin'])
-        buffer = plot_clouds_buffer(clouds)
+        buffer = plot_clouds_buffer(clouds, **plot_args)
         #text = '%1g ${\\rm M_{\odot}}$' % p['mclmin']
         #ax.text(0.01, 0.97, text, size=18, weight='bold', color='black',transform=ax.transAxes)
         ax.axis('off')
