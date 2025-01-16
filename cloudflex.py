@@ -1678,10 +1678,16 @@ def plot_multi_clouds(clouds_list):
     plt.savefig(fn)
     plt.clf()
 
-def plot_clouds_buffer(clouds, filename=None):
+def plot_clouds_buffer(clouds, filename=None, buffer_min=5e14, buffer_max=1e21,
+                       relative_coords=True):
     """
     Add all clouds to a buffer image as column densities, then plot in log space of
     column densities.  Cleanest way to show high dynamical range of clouds.
+
+    buffer_min and buffer_max are the limits of the column density in cm**-2
+
+    relative_coords specifies if the x,y coordinates cover the entirety
+    of the cloud complex.  If False, plot from -5 to 5 kpc in x,y.
     """
     p = clouds.params
     radii = clouds.radii
@@ -1689,7 +1695,12 @@ def plot_clouds_buffer(clouds, filename=None):
     velocities = clouds.velocities
     N = 1000    # N pixels on a side of image
     buffer = np.zeros([N, N], dtype='float')
-    X=Y= np.linspace(-p['dclmax'], p['dclmax'], N, endpoint=False)
+    # Plot in coordinates relative to the maximum size of the complex
+    if relative_coords:
+        X=Y= np.linspace(-p['dclmax'], p['dclmax'], N, endpoint=False)
+    # Plot in absolute coordinates from -5 kpc to 5 kpc
+    else:
+        X=Y= np.linspace(-5, 5, N, endpoint=False)
     indices = np.arange(N)
     pix_width = np.abs(X[1] - X[0])
     coords = np.array([X,Y]).T
@@ -1733,8 +1744,8 @@ def plot_clouds_buffer(clouds, filename=None):
         return buffer
 
     # colorbar limits in column density
-    minbuf = 5e14 # limits which seem to get extrema for different cloud distributions
-    maxbuf = 1e21
+    minbuf = buffer_min # limits which seem to get extrema for different cloud distributions
+    maxbuf = buffer_max
     fig, ax = plt.subplots(figsize=(10,10))
     im = ax.imshow(buffer, cmap='Blues', norm=colors.LogNorm(vmin=minbuf, vmax=maxbuf))#, norm='symlog')
     #plt.colorbar(im,fraction=0.046, pad=0.04)
