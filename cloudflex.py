@@ -1594,6 +1594,7 @@ def create_and_plot_clouds(params, cloud_fil='clouds.h5'):
     #clouds.save('clouds.h5')
     clouds.save(cloud_fil)
     plot_clouds(clouds=clouds, filename='clouds.png')
+    plot_clouds_buffer(clouds=clouds, filename='clouds_buff.png')
     distances = np.linalg.norm(np.array([0,0,0]) - clouds.centers, axis=1)
     velocities = np.linalg.norm(np.array([0,0,0]) - clouds.velocities, axis=1)
     plot_histogram(distances, "cloud radial distances", clouds, log=True, xrange=[-1, 1])
