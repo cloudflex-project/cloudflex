@@ -29,6 +29,7 @@ the Trident ion balance file.
  * unyt
  * cmyt
  * cmocean
+ * matplotlib_scalebar
 
 ### Trident Ion Balance File
 
