@@ -1679,8 +1679,8 @@ def plot_multi_clouds(clouds_list):
     plt.savefig(fn)
     plt.clf()
 
-def plot_clouds_buffer(clouds, filename=None, buffer_limits=(5e14, 1e21),
-                       relative_coords=True):
+def plot_clouds_buffer(clouds, filename=None, buffer_limits=(1e16, 1e20),
+                       relative_coords=True, colorbar=True):
     """
     Add all clouds to a buffer image as column densities, then plot in log space of
     column densities.  Cleanest way to show high dynamical range of clouds.
@@ -1689,6 +1689,8 @@ def plot_clouds_buffer(clouds, filename=None, buffer_limits=(5e14, 1e21),
 
     relative_coords specifies if the x,y coordinates cover the entirety
     of the cloud complex.  If False, plot from -5 to 5 kpc in x,y.
+
+    colorbar controls whether you want a colorbar to be plot with the complex
     """
     p = clouds.params
     radii = clouds.radii
@@ -1748,7 +1750,9 @@ def plot_clouds_buffer(clouds, filename=None, buffer_limits=(5e14, 1e21),
     (minbuf, maxbuf) =  buffer_limits # limits which seem to get extrema for different cloud distributions
     fig, ax = plt.subplots(figsize=(10,10))
     im = ax.imshow(buffer, cmap='Blues', norm=colors.LogNorm(vmin=minbuf, vmax=maxbuf))#, norm='symlog')
-    #plt.colorbar(im,fraction=0.046, pad=0.04)
+    if colorbar:
+        plt.colorbar(im,fraction=0.046, pad=0.04, label='N$_H$ (cm$^{-2}$)')
+
     ax.axis('off')
     text = '$10^{%1g}~{\\rm M_{\odot}}$' % np.log10(p['mclmin'])
     #ax.text(0.01, 0.97, text, size=34, weight='bold', color='black',transform=ax.transAxes)
