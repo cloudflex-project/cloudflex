@@ -305,7 +305,7 @@ def make_perturbations_log_normal(n, kmin, kmax, f_solenoidal):
     return pertx, perty, pertz
 
 def normalize(fx, fy, fz, n):
-    norm = np.sqrt(np.sum(fx**2 + fy**2 + fz**2)/np.product(n))
+    norm = np.sqrt(np.sum(fx**2 + fy**2 + fz**2)/np.prod(n))
     fx = fx/norm
     fy = fy/norm
     fz = fz/norm
@@ -319,7 +319,7 @@ def get_erot_ke_ratio(pertx, perty, pertz):
     r2 = x**2+y**2+z**2
     erot_ke_ratio = (np.sum(y*pertz-z*perty)**2 +
                      np.sum(z*pertx-x*pertz)**2 +
-                     np.sum(x*perty-y*pertx)**2)/(np.sum(r2)*np.product(n))
+                     np.sum(x*perty-y*pertx)**2)/(np.sum(r2)*np.prod(n))
     return erot_ke_ratio
 
 def plot_spectrum1D(pertx, perty, pertz, n, kmin, kmax):
